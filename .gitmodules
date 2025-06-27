@@ -1,0 +1,9 @@
+[submodule "schtest"]
+	path = schtest
+	url = git@github.com:amscanne/schtest.git
+[submodule "scx"]
+	path = scx
+	url = git@github.com:sched-ext/scx
+[submodule "linux"]
+	path = linux
+	url = git@github.com:rrnewton/linux.git
