@@ -17,7 +17,9 @@ if ! [ -d ./mkosi-kernel ]; then
 fi
 cd ./mkosi-kernel
 git checkout 7beb959e51354077ded4333d2c9951909ea46c75
-git clean -fd
+
+# Permissions issues with some of the created VM files:
+git clean -fxd || sudo git clean -fxd
 
 # Check if `hostname` matches "*.facebook.com":
 if hostname | grep -q '\.facebook\.com$'; then
