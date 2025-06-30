@@ -7,3 +7,6 @@
 [submodule "linux"]
 	path = linux
 	url = git@github.com:rrnewton/linux.git
+[submodule "virtme-ng"]
+	path = virtme-ng
+	url = git@github.com:arighi/virtme-ng.git
