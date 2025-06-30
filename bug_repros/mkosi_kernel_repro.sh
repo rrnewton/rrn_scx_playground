@@ -10,7 +10,8 @@ if ! [ -d ./mkosi ]; then
     git clone https://github.com/systemd/mkosi
 fi
 (cd ./mkosi && git checkout 0d1143150835b21c1bfe64428df5f45b558280b1)
-export PATH="$PATH:$PWD/mkosi/bin/"
+MKOSI_BIN_PATH="$PWD/mkosi/bin/"
+export PATH="$PATH:$MKOSI_BIN_PATH"
 
 echo;echo "Mkosi version, running from source:"
 mkosi --version
@@ -37,4 +38,4 @@ Distribution=fedora
 EOF
 
 # As per the README:
-mkosi -f qemu
+sudo "$MKOSI_BIN_PATH/mkosi" --profile=kernel -f qemu
