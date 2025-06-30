@@ -17,13 +17,19 @@ if ! [ -d ./mkosi-kernel ]; then
 fi
 cd ./mkosi-kernel
 git checkout 7beb959e51354077ded4333d2c9951909ea46c75
-
+git clean -fd
 
 # Check if `hostname` matches "*.facebook.com":
-if ! hostname | grep -q '\.facebook\.com$'; then
+if hostname | grep -q '\.facebook\.com$'; then
+    echo "Setting proxy!"
     # For devvm:
-    export https_proxy=fwdproxy:8080
+    export https_proxy="fwdproxy:8080"
 fi
+
+cat > ./mkosi.local.conf <<EOF
+[Distribution]
+Distribution=fedora
+EOF
 
 # As per the README:
 mkosi -f qemu
