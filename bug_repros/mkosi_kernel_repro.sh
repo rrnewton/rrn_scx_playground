@@ -3,6 +3,9 @@ uname -a
 cat /etc/issue /etc/redhat-release
 set -euo pipefail
 
+# Optionally run this first:
+# rm -rf $HOME/.cache/mkosi
+
 if ! [ -d ./mkosi ]; then
     git clone https://github.com/systemd/mkosi
 fi
