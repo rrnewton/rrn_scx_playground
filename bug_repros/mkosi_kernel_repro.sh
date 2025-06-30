@@ -19,8 +19,11 @@ cd ./mkosi-kernel
 git checkout 7beb959e51354077ded4333d2c9951909ea46c75
 
 
-# For devvm:
-export https_proxy=fwdproxy:8080
+# Check if `hostname` matches "*.facebook.com":
+if ! hostname | grep -q '\.facebook\.com$'; then
+    # For devvm:
+    export https_proxy=fwdproxy:8080
+fi
 
 # As per the README:
 mkosi -f qemu
