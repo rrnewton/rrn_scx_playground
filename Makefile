@@ -6,5 +6,8 @@ hello.bin: hello.c
 hello.static: hello.c
 	gcc -static hello.c -o hello.static
 
+fedora_deps:
+	dnf install -y elfutils-libelf-devel qemu busybox
+
 clean:
 	rm -f hello.bin hello.static
