@@ -13,3 +13,6 @@
 [submodule "mkosi-kernel"]
 	path = mkosi-kernel
 	url = git@github.com:DaanDeMeyer/mkosi-kernel.git
+[submodule "virtme-rrn"]
+	path = virtme-rrn
+	url = git@github.com:rrnewton/virtme.git
