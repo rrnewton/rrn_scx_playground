@@ -12,4 +12,4 @@
 	url = git@github.com:arighi/virtme-ng.git
 [submodule "mkosi-kernel"]
 	path = mkosi-kernel
-	url = ./mkosi-kernel
+	url = git@github.com:DaanDeMeyer/mkosi-kernel.git
