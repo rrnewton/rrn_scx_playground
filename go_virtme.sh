@@ -9,7 +9,10 @@ virtme="$dir/virtme-rrn/virtme-run"
 
 cd "$dir/linux"
 
+# make hello.static
 # PROG=../hello.static
+
+make -j16 -C tools/sched_ext
 PROG=../guest_script.sh
 
 set +euo pipefail
