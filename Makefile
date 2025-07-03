@@ -10,7 +10,7 @@ ubuntu_deps:
 	sudo apt install -y build-essential libelf-dev qemu-system busybox-static
 
 fedora_deps:
-	sudo dnf install -y elfutils-libelf-devel qemu busybox
+	sudo dnf install -y elfutils-libelf-devel qemu busybox glibc-static
 
 clean:
 	rm -f hello.bin hello.static
