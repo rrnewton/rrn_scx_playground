@@ -10,3 +10,6 @@
 [submodule "virtme-ng"]
 	path = virtme-ng
 	url = git@github.com:arighi/virtme-ng.git
+[submodule "mkosi-kernel"]
+	path = mkosi-kernel
+	url = ./mkosi-kernel

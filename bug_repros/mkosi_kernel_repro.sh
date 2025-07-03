@@ -37,5 +37,14 @@ cat > ./mkosi.local.conf <<EOF
 Distribution=fedora
 EOF
 
+function maybe_sudo() {
+    if [ "$(whoami)" == "root" ]; then
+        $*
+    else
+        sudo $*
+    fi
+}
+
+
 # As per the README:
-sudo "$MKOSI_BIN_PATH/mkosi" --profile=kernel -f qemu
+maybe_sudo "$MKOSI_BIN_PATH/mkosi" --profile=kernel -f qemu
