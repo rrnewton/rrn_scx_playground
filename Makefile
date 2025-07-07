@@ -24,11 +24,11 @@ fedora_deps:
 #==============================================================================
 
 server:
-	(cd linux && ln -sf ../kernel_configs_bak/server_current_config)
+	(cd linux && ln -sf ../kernel_configs_bak/server_current_config .config)
 	(cd linux && make -j ARCH=x86_64)
 
 laptop:
-	(cd linux && ln -sf ../kernel_configs_bak/laptop_current_config)
+	(cd linux && ln -sf ../kernel_configs_bak/laptop_current_config .config)
 	(cd linux && make -j ARCH=x86_64)
 
 clean:
