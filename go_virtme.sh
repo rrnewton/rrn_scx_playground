@@ -6,14 +6,7 @@ cd $(dirname $0)
 dir=$(pwd)
 virtme="$dir/virtme-rrn/virtme-run"
 
-# make hello.static
-# PROG=../hello.static
-
-cd "$dir/schtest"
-cargo build
-
-cd "$dir/linux"
-make -j16 -C tools/sched_ext
+make tests
 
 PROG=../guest_script.sh
 # PROG="../schtest/target/debug/schtest"
@@ -21,5 +14,6 @@ PROG=../guest_script.sh
 
 set +euo pipefail
 echo "Running slightly patched Virtme..."
-"$virtme" --kimg arch/x86/boot/bzImage --rw --pwd --cpus 3 --memory 1024M --script-exec $PROG
+# "$virtme" --kimg arch/x86/boot/bzImage --rw --pwd --cpus 50 --memory 120G --script-exec $PROG
+"$virtme" --kimg arch/x86/boot/bzImage --rw --pwd --cpus 3 --memory 2G --script-exec $PROG
 echo "Virtme run complete: $?"

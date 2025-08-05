@@ -1,7 +1,8 @@
-all: hello.bin hello.static
+all: tests scheds
 
 # Little Test programs
 #==============================================================================
+tests: hello.bin hello.static schtest tools_scx
 
 hello.bin: hello.c
 	gcc hello.c -o hello.bin
@@ -9,9 +10,20 @@ hello.bin: hello.c
 hello.static: hello.c
 	gcc -static hello.c -o hello.static
 
-# Dependencies
+schtest:
+	cd schtest && cargo build
+
+tools_scx:
+	cd linux && make -j16 -C tools/sched_ext
+
+# Schedulers
 #==============================================================================
 
+scheds:
+	cd scx && cargo build --release
+
+# Dependencies
+#==============================================================================
 
 ubuntu_deps:
 	sudo apt-get install -y build-essential libelf-dev qemu-system busybox-static bc git exuberant-ctags
@@ -22,6 +34,9 @@ fedora_deps:
 
 # Linux Kernel Builds
 #==============================================================================
+
+incr:
+	cd linux && make -j ARCH=x86_64
 
 server:
 	(cd linux && ln -sf ../kernel_configs_bak/server_current_config .config)

@@ -58,7 +58,10 @@ function colorlines() {
 alias yellowcolor2="colorlines $YELLOW"
 
 function trial() {
-    ./tools/sched_ext/build/bin/scx_qmap -P > >(greencolor) &
+    ../scx/target/release/scx_lavd --performance --verbose 1> >(greencolor) 2> >(greencolor) &
+    # ../scx/target/release/scx_lavd --performance --verbose 2>&1 > >(greencolor) &
+    # ../scx/target/release/scx_lavd --performance --verbose 1>&2 2> >(greencolor) &
+    # ./tools/sched_ext/build/bin/scx_qmap -P > >(greencolor) &
     test_pid=$!
     sleep 1
     cat /sys/kernel/debug/tracing/trace_pipe > >(redcolor) &
@@ -68,7 +71,9 @@ function trial() {
     # ./tools/sched_ext/build/bin/scx_qmap || echo "PROCESS DIED, exit code $?"
     # ../scx/target/debug/scx_lavd || echo "PROCESS DIED, exit code $?"
 
-    ../schtest/target/debug/schtest --filter spread_out 2>&1 | bluecolor
+    # ../schtest/target/debug/schtest --filter spread_out 2>&1 | bluecolor
+    # ../schtest/target/debug/schtest --filter fairness 2>&1 | bluecolor
+    /usr/local/bin/schbench 2>&1 | bluecolor
     kill -SIGINT $test_pid
     kill $cat_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
