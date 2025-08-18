@@ -30,7 +30,7 @@ ubuntu_deps:
 #   libncurses5-dev libssl-dev
 
 fedora_deps:
-	sudo dnf install -y elfutils-libelf-devel qemu busybox glibc-static ctags
+	sudo dnf install -y elfutils-libelf-devel qemu busybox glibc-static ctags clang llvm libseccomp-devel
 
 # Linux Kernel Builds
 #==============================================================================
@@ -40,7 +40,8 @@ incr:
 
 server:
 	(cd linux && ln -sf ../kernel_configs_bak/server_current_config .config)
-	(cd linux && make -j56 ARCH=x86_64)
+
+	(cd linux && make -j176 ARCH=x86_64)
 
 laptop:
 	(cd linux && ln -sf ../kernel_configs_bak/laptop_current_config .config)
