@@ -30,7 +30,7 @@ ubuntu_deps:
 #   libncurses5-dev libssl-dev
 
 fedora_deps:
-	sudo dnf install -y elfutils-libelf-devel qemu busybox glibc-static ctags clang llvm libseccomp-devel
+	sudo dnf install -y elfutils-libelf-devel qemu busybox glibc-static ctags clang llvm libseccomp-devel ncurses-devel
 
 # Linux Kernel Builds
 #==============================================================================
