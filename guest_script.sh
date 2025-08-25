@@ -58,7 +58,7 @@ function colorlines() {
 alias yellowcolor2="colorlines $YELLOW"
 
 function trial() {
-    ../scx/target/release/scx_lavd --performance --verbose 1> >(greencolor) 2> >(greencolor) &
+    ../scx/target/release/scx_lavd --performance --verbose --per-cpu-dsq 1> >(greencolor) 2> >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 2>&1 > >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 1>&2 2> >(greencolor) &
     # ./tools/sched_ext/build/bin/scx_qmap -P > >(greencolor) &
@@ -73,7 +73,7 @@ function trial() {
 
     # ../schtest/target/debug/schtest --filter spread_out 2>&1 | bluecolor
     # ../schtest/target/debug/schtest --filter fairness 2>&1 | bluecolor
-    /usr/local/bin/schbench 2>&1 | bluecolor
+    ../schbench/schbench 2>&1 | bluecolor
     kill -SIGINT $test_pid
     kill $cat_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)

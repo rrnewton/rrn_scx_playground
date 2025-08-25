@@ -16,3 +16,6 @@
 [submodule "virtme-rrn"]
 	path = virtme-rrn
 	url = git@github.com:rrnewton/virtme.git
+[submodule "schbench"]
+	path = schbench
+	url = https://git.kernel.org/pub/scm/linux/kernel/git/mason/schbench.git
