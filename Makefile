@@ -2,7 +2,7 @@ all: tests scheds
 
 # Little Test programs
 #==============================================================================
-tests: hello.bin hello.static schtest tools_scx
+tests: hello.bin hello.static schtest schbench tools_scx
 
 hello.bin: hello.c
 	gcc hello.c -o hello.bin
@@ -13,8 +13,15 @@ hello.static: hello.c
 schtest:
 	cd schtest && cargo build
 
+schbench:
+	cd schbench && make
+
 tools_scx:
 	cd linux && make -j16 -C tools/sched_ext
+
+selftests:
+	cd linux && make -j -C tools/testing/selftests/sched_ext
+#	cd linux/tools/testing/selftests/sched_ext && make -j
 
 # Schedulers
 #==============================================================================
@@ -50,3 +57,5 @@ laptop:
 clean:
 	rm -f hello.bin hello.static
 	(cd linux && make clean)
+
+.PHONY: schbench schtest

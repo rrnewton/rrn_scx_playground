@@ -19,3 +19,6 @@
 [submodule "schbench"]
 	path = schbench
 	url = https://git.kernel.org/pub/scm/linux/kernel/git/mason/schbench.git
+[submodule "wprof"]
+	path = wprof
+	url = git@github.com:anakryiko/wprof.git
