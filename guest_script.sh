@@ -64,8 +64,6 @@ function trial() {
     # ./tools/sched_ext/build/bin/scx_qmap -P > >(greencolor) &
     test_pid=$!
     sleep 1
-    cat /sys/kernel/debug/tracing/trace_pipe > >(redcolor) &
-    cat_pid=$!
 
     # Second scheduler fails of course, including non-zero exit code.''
     # ./tools/sched_ext/build/bin/scx_qmap || echo "PROCESS DIED, exit code $?"
@@ -75,13 +73,28 @@ function trial() {
     # ../schtest/target/debug/schtest --filter fairness 2>&1 | bluecolor
     ../schbench/schbench 2>&1 | bluecolor
     kill -SIGINT $test_pid
-    kill $cat_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
 }
 
-(dmesg -W | yellowcolor) &
-# (whoami; cat /proc/self/cgroup; find /sys/fs/cgroup) | greencolor
-trial;
-# trial;
+function runtest() {
+    pwd -P
+    whoami
+    cd tools/testing/selftests/sched_ext
+    ./runner -t peek_dsq
+    # ./runner -t create_dsq
+    echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
+}
 
+dmesg -W > >(yellowcolor) &
+dmesg_pid=$!
+cat /sys/kernel/debug/tracing/trace_pipe > >(redcolor) &
+cat_pid=$!
+
+# (whoami; cat /proc/self/cgroup; find /sys/fs/cgroup) | greencolor
+# trial;
+# trial;
+runtest;
+
+kill $dmesg_pid
+kill $cat_pid
 echo "Done with script."
