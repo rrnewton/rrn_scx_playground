@@ -57,7 +57,7 @@ function colorlines() {
 
 alias yellowcolor2="colorlines $YELLOW"
 
-function trial() {
+function lavd_trial() {
     ../scx/target/release/scx_lavd --performance --verbose --per-cpu-dsq 1> >(greencolor) 2> >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 2>&1 > >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 1>&2 2> >(greencolor) &
@@ -80,8 +80,11 @@ function runtest() {
     pwd -P
     whoami
     cd tools/testing/selftests/sched_ext
+    stress-ng --cpu 1 -t 4 &
+    stress_pid=$!
     ./runner -t peek_dsq
     # ./runner -t create_dsq
+    kill $stress_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
 }
 
@@ -91,8 +94,8 @@ cat /sys/kernel/debug/tracing/trace_pipe > >(redcolor) &
 cat_pid=$!
 
 # (whoami; cat /proc/self/cgroup; find /sys/fs/cgroup) | greencolor
-# trial;
-# trial;
+# lavd_trial;
+# lavd_trial;
 runtest;
 
 kill $dmesg_pid
