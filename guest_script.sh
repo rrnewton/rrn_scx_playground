@@ -76,15 +76,38 @@ function lavd_trial() {
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
 }
 
+
+# Let's ensure sleeping and waking is happening repeatedly.
+function work_thread() {
+    set +x
+    for i in {1..1000}; do
+        count=0
+        while [ $count -lt 1000 ]; do
+            count=$((count + 1))
+        done
+        sleep 0.1;
+    done
+}
+    # stress-ng --cpu 4 -t 4
+
+    # for i in {1..4}; do
+    #     stress-ng --cpu 4 --timeout 1s --metrics-brief
+    #     sleep 0.1
+    # done
+
+
+
 function runtest() {
     pwd -P
     whoami
     cd tools/testing/selftests/sched_ext
-    stress-ng --cpu 1 -t 4 &
-    stress_pid=$!
+    # work_thread &
+    # stress_pid=$!
+
     ./runner -t peek_dsq
     # ./runner -t create_dsq
-    kill $stress_pid
+
+    # kill $stress_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
 }
 
