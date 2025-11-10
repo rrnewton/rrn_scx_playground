@@ -9,6 +9,7 @@ if [ -e /sys/kernel/sched_ext/root/ops ]; then
     cat /sys/kernel/sched_ext/root/ops
 fi
 
+playground_dir=$(dirname $0)
 
 RED='\033[0;31m'  # Red text
 GREEN='\033[0;32m'  # Green text
@@ -62,7 +63,7 @@ function lavd_trial() {
     # ../scx/target/release/scx_lavd --performance --verbose 2>&1 > >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 1>&2 2> >(greencolor) &
     # ./tools/sched_ext/build/bin/scx_qmap -P > >(greencolor) &
-    test_pid=$!
+    sched_pid=$!
     sleep 1
 
     # Second scheduler fails of course, including non-zero exit code.''
@@ -72,10 +73,18 @@ function lavd_trial() {
     # ../schtest/target/debug/schtest --filter spread_out 2>&1 | bluecolor
     # ../schtest/target/debug/schtest --filter fairness 2>&1 | bluecolor
     ../schbench/schbench 2>&1 | bluecolor
-    kill -SIGINT $test_pid
+    kill -SIGINT $sched_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
 }
 
+function beerland_trial() {
+    ../scx/target/release/scx_beerland 1> >(greencolor) 2> >(greencolor) &
+    sched_pid=$!
+    sleep 1
+    ../schbench/schbench -L -m 4 -M auto -t 200 -n 0 2>&1 | bluecolor
+    kill -SIGINT $sched_pid
+    echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
+}
 
 # Let's ensure sleeping and waking is happening repeatedly.
 function work_thread() {
@@ -96,12 +105,12 @@ function work_thread() {
     # done
 
 
-
 function runtest() {
     pwd -P
     whoami
-    cd tools/testing/selftests/sched_ext
+    cd "$playground_dir/linux/tools/testing/selftests/sched_ext"
     # work_thread &
+    # ../../../../../schbench/schbench 2>&1 | bluecolor &
     # stress_pid=$!
 
     ./runner -t peek_dsq
@@ -119,7 +128,11 @@ cat_pid=$!
 # (whoami; cat /proc/self/cgroup; find /sys/fs/cgroup) | greencolor
 # lavd_trial;
 # lavd_trial;
-runtest;
+
+#for ((i=0; i<10; i++)); do
+    runtest;
+#done
+# beerland_trial
 
 kill $dmesg_pid
 kill $cat_pid

@@ -22,3 +22,6 @@
 [submodule "wprof"]
 	path = wprof
 	url = git@github.com:anakryiko/wprof.git
+[submodule ".claude_template"]
+	path = .claude_template
+	url = git@github.com:rrnewton/claude_template
