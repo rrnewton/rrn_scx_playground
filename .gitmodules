@@ -25,3 +25,15 @@
 [submodule ".claude_template"]
 	path = .claude_template
 	url = git@github.com:rrnewton/claude_template
+[submodule "rt-app"]
+	path = rt-app
+	url = git@github.com:scheduler-tools/rt-app.git
+[submodule "stress-ng"]
+	path = stress-ng
+	url = git@github.com:ColinIanKing/stress-ng.git
+[submodule "rsched"]
+	path = rsched
+	url = git@github.com:masoncl/rsched.git
+[submodule "semcode"]
+	path = semcode
+	url = git@github.com:facebookexperimental/semcode.git

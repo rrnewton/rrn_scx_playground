@@ -59,7 +59,10 @@ function colorlines() {
 alias yellowcolor2="colorlines $YELLOW"
 
 function lavd_trial() {
-    ../scx/target/release/scx_lavd --performance --verbose --per-cpu-dsq 1> >(greencolor) 2> >(greencolor) &
+    # RRN: This is stalling for me 2025-11-21:
+    ../scx/target/release/scx_lavd --performance --slice-min-us 5000 --slice-max-us 20000 --pinned-slice-us 5000 --mig-delta-pct 50 --enable-cpu-bw --log-level=debug --stats 1.0 \
+       1> >(greencolor) 2> >(greencolor) &
+    # ../scx/target/release/scx_lavd --performance --verbose --per-cpu-dsq 1> >(greencolor) 2> >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 2>&1 > >(greencolor) &
     # ../scx/target/release/scx_lavd --performance --verbose 1>&2 2> >(greencolor) &
     # ./tools/sched_ext/build/bin/scx_qmap -P > >(greencolor) &
@@ -73,6 +76,10 @@ function lavd_trial() {
     # ../schtest/target/debug/schtest --filter spread_out 2>&1 | bluecolor
     # ../schtest/target/debug/schtest --filter fairness 2>&1 | bluecolor
     ../schbench/schbench 2>&1 | bluecolor
+
+    # Extra sleep to give LAVD time to stall.
+    sleep 35
+
     kill -SIGINT $sched_pid
     echo "SCX invocation count: "$(cat /sys/kernel/sched_ext/enable_seq)
 }
@@ -125,14 +132,26 @@ dmesg_pid=$!
 cat /sys/kernel/debug/tracing/trace_pipe > >(redcolor) &
 cat_pid=$!
 
-# (whoami; cat /proc/self/cgroup; find /sys/fs/cgroup) | greencolor
-# lavd_trial;
+uname -a | greencolor
+cat /proc/cpuinfo | grep "model name" | greencolor
+(whoami; cat /proc/self/cgroup; find /sys/fs/cgroup) | greencolor
+(cat /etc/issue /etc/*-release || echo ok) | greencolor
+echo "Running workload in guest!" | greencolor
+
+# ==============================================================================
+# Pick a workload
+# ==============================================================================
+
+time lavd_trial;
+
 # lavd_trial;
 
 #for ((i=0; i<10; i++)); do
-    runtest;
+#    runtest;
 #done
 # beerland_trial
+
+# ==============================================================================
 
 kill $dmesg_pid
 kill $cat_pid
